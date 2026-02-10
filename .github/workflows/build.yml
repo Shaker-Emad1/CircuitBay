@@ -1,0 +1,51 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.gitignore'
+      - '.dockerignore'
+  pull_request:
+    branches:
+      - main
+      - dev
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Solution
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # TODO: Consider using a matrix build if we target multiple platforms or .NET runtime versions in the future.
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+          cache: true
+          cache-dependency-path: 'CircuitBay.slnx'
+
+      - name: Restore Dependencies
+        run: dotnet restore CircuitBay.slnx --verbosity normal
+
+      # TODO: Integrate dotnet-format check here to enforce style guides prior to compilation.
+      # TODO (Backlog): System.Security.Cryptography.Xml 9.0.0 in CircuitBay.Infrastructure has known high-severity vulnerabilities (NU1903).
+      # We suppress NuGet audit warnings (NU1901-NU1904) for now to prevent halting core CI. Plan upgrade to a patched package version in next sprint.
+      - name: Build Solution (Release)
+        run: |
+          dotnet build CircuitBay.slnx \
+            --no-restore \
+            --configuration Release \
+            /p:TreatWarningsAsErrors=true \
+            /p:WarningsNotAsErrors="NU1901;NU1902;NU1903;NU1904"

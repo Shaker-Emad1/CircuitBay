@@ -1,0 +1,13 @@
+**/bin/
+**/obj/
+.vs/
+.git/
+.idea/
+TestResults/
+coverage/
+*.user
+*.suo
+api.*.log
+*.mdf
+*.ldf
+.env

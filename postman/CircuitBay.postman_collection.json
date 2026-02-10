@@ -1,0 +1,73 @@
+{
+  "info": {
+    "name": "CircuitBay API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "token", "value": "" },
+    { "key": "productId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Login shopper",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/auth/login",
+        "body": { "mode": "raw", "raw": "{\n  \"email\": \"mira.chen@example.com\",\n  \"password\": \"ShopperPass!2026\"\n}" }
+      }
+    },
+    {
+      "name": "Search products",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/catalog/products?query=dac&inStockOnly=true&sort=rating&page=1&pageSize=20"
+      }
+    },
+    {
+      "name": "Add cart line",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": "{{baseUrl}}/api/cart/lines",
+        "body": { "mode": "raw", "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"quantity\": 1\n}" }
+      }
+    },
+    {
+      "name": "Checkout",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": "{{baseUrl}}/api/checkout",
+        "body": { "mode": "raw", "raw": "{\n  \"shippingName\": \"Mira Chen\",\n  \"shippingAddress\": \"42 Workbench Lane, Austin, TX\"\n}" }
+      }
+    },
+    {
+      "name": "Apply coupon",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": "{{baseUrl}}/api/cart/coupon",
+        "body": { "mode": "raw", "raw": "{\n  \"code\": \"LABBENCH10\"\n}" }
+      }
+    },
+    {
+      "name": "Admin dashboard",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{baseUrl}}/api/admin/dashboard"
+      }
+    }
+  ]
+}

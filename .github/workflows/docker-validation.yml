@@ -1,0 +1,71 @@
+name: Docker Validation
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.gitignore'
+      - '.dockerignore'
+  pull_request:
+    branches:
+      - main
+      - dev
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+  workflow_dispatch:
+
+jobs:
+  validate-docker:
+    name: Docker Compose Integration Smoke Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # TODO: Consider adding an image vulnerability scanning step (e.g., Trivy) before booting the stack.
+      - name: Build and Start Containers
+        run: docker compose up -d --build
+
+      - name: Wait for API Readiness
+        run: |
+          echo "Waiting for CircuitBay API to be ready..."
+          max_attempts=30
+          attempt=1
+          until curl -s -f http://localhost:8080/healthz/ready > /dev/null || [ $attempt -eq $max_attempts ]; do
+            echo "Attempt $attempt/$max_attempts: API is not ready yet. Waiting 5s..."
+            sleep 5
+            attempt=$((attempt+1))
+          done
+          
+          if [ $attempt -eq $max_attempts ]; then
+            echo "::error::CircuitBay API did not become ready in time."
+            exit 1
+          fi
+          echo "CircuitBay API is healthy and ready!"
+
+      - name: Validate Swagger Endpoint
+        run: |
+          echo "Fetching Swagger JSON spec..."
+          curl -f http://localhost:8080/swagger/v1/swagger.json -o swagger.json
+          echo "Swagger spec retrieved successfully! Size: $(wc -c < swagger.json) bytes"
+
+      - name: Dump Container Logs on Failure
+        if: failure()
+        run: |
+          echo "=== API Logs ==="
+          docker compose logs api
+          echo "=== SQL Server Logs ==="
+          docker compose logs sql
+          echo "=== Redis Logs ==="
+          docker compose logs redis
+
+      # Always tear down clean up, keeping runner space free.
+      - name: Tear Down Stack
+        if: always()
+        run: docker compose down -v

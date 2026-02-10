@@ -1,0 +1,19 @@
+@CircuitBay.Api_HostAddress = http://localhost:5074
+@token = paste-token-here
+
+GET {{CircuitBay.Api_HostAddress}}/api/catalog/products?query=ssd&inStockOnly=true
+
+###
+
+POST {{CircuitBay.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "mira.chen@example.com",
+  "password": "ShopperPass!2026"
+}
+
+###
+
+GET {{CircuitBay.Api_HostAddress}}/api/cart
+Authorization: Bearer {{token}}

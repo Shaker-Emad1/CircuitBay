@@ -1,0 +1,61 @@
+@host = http://localhost:8080
+@token = paste-token-here
+
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "mira.chen@example.com",
+  "password": "ShopperPass!2026"
+}
+
+###
+
+GET {{host}}/api/catalog/products?query=quanta&inStockOnly=true&sort=price&page=1&pageSize=10
+
+###
+
+PUT {{host}}/api/cart/lines
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "productId": "paste-product-id",
+  "quantity": 1
+}
+
+###
+
+PUT {{host}}/api/cart/coupon
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "code": "LABBENCH10"
+}
+
+###
+
+POST {{host}}/api/checkout
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "shippingName": "Mira Chen",
+  "shippingAddress": "42 Workbench Lane, Austin, TX"
+}
+
+###
+
+GET {{host}}/api/admin/dashboard
+Authorization: Bearer {{token}}
+
+###
+
+GET {{host}}/api/admin/coupons
+Authorization: Bearer {{token}}
+
+###
+
+GET {{host}}/api/admin/audit?take=25
+Authorization: Bearer {{token}}
