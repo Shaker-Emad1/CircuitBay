@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CircuitBay.Api/CircuitBay.Api.csproj" />
+    <Project Path="src/CircuitBay.Application/CircuitBay.Application.csproj" />
+    <Project Path="src/CircuitBay.Contracts/CircuitBay.Contracts.csproj" />
+    <Project Path="src/CircuitBay.Domain/CircuitBay.Domain.csproj" />
+    <Project Path="src/CircuitBay.Infrastructure/CircuitBay.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CircuitBay.Tests/CircuitBay.Tests.csproj" />
+  </Folder>
+</Solution>
