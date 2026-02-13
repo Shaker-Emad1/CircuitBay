@@ -13,6 +13,9 @@ The code is split into domain, contracts, application services, infrastructure, 
 - `src/CircuitBay.Api` - controllers, JWT setup, middleware, Hangfire wiring.
 - `tests/CircuitBay.Tests` - unit tests for auth and commerce rules.
 
+## Local Development Notes
+Docker Desktop may require additional startup time on first SQL Server container initialization.
+
 ## Run Locally
 
 ```powershell
