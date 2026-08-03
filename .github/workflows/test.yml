@@ -38,7 +38,6 @@ jobs:
       - name: Restore Dependencies
         run: dotnet restore CircuitBay.slnx --verbosity normal
 
-      # TODO: Configure code coverage threshold checks or connect upload step to Codecov/SonarCloud.
       - name: Execute Tests (Release)
         run: |
           dotnet test CircuitBay.slnx \

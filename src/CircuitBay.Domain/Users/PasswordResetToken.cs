@@ -4,7 +4,6 @@ namespace CircuitBay.Domain.Users;
 
 // Single-use password reset tokens. Stored hashed; token is ephemeral (not logged).
 // Intentionally short-lived — 2 hour window before the link expires.
-// TODO: consider a dedicated email delivery receipt field if we add email delivery tracking later.
 public sealed class PasswordResetToken : BaseEntity
 {
     private PasswordResetToken() { }

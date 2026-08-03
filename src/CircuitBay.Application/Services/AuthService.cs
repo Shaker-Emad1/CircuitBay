@@ -9,9 +9,8 @@ namespace CircuitBay.Application.Services;
 // Auth lifecycle: register/login issues both access+refresh tokens.
 // Refresh rotates the token pair. Revoke invalidates a specific refresh token.
 // Password reset is token-based via email (email dispatch is out of scope here — caller handles it).
-//
-// Login failures don't currently lock accounts after N attempts — that's tracked in the TODO.
-// The IsLocked flag exists but we don't auto-lock. A deliberate choice to avoid self-DoS via lockout.
+// Login failures verify password hash and respect explicit account locking (IsLocked flag).
+// Auto-lockout policy is disabled by design to prevent credential-stuffing self-DoS.
 public sealed class AuthService(
     IStoreData data,
     IPasswordHasher passwordHasher,

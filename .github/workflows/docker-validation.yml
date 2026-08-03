@@ -28,7 +28,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # TODO: Consider adding an image vulnerability scanning step (e.g., Trivy) before booting the stack.
       - name: Build and Start Containers
         run: docker compose up -d --build
 

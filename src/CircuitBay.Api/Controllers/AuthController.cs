@@ -34,8 +34,7 @@ public sealed class AuthController(AuthService auth) : ApiControllerBase
     }
 
     // No email gateway wired up yet — returns the raw token in the response body for dev/test.
-    // In production this would dispatch an email and return 204.
-    // TODO: integrate SendGrid/Postmark when email infra is added.
+    // In production this would dispatch an email via a transactional email provider and return 204.
     [HttpPost("forgot-password")]
     public async Task<IActionResult> ForgotPassword(ForgotPasswordRequest request, CancellationToken ct)
     {

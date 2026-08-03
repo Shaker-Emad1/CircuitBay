@@ -1,19 +1,50 @@
+## Build outputs & binaries
 bin/
 obj/
-.vs/
-.idea/
-*.user
-*.suo
+publish/
+[Aa]rtifacts/
 TestResults/
 coverage/
+
+## IDE and Editor files
+.vs/
+.idea/
+.vscode/
+*.user
+*.useros
+*.suo
+*.userprefs
+*.sln.docstates
+_ReSharper*/
+*.rsuser
+
+## Secret & Environment configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.pfx
+*.p12
+
+## Databases & Storage
 *.db
+*.sqlite
+*.sqlite3
 *.mdf
 *.ldf
-.env
 docker-data/
-artifacts/
-*.trx
+
+## Logs & Cache
+logs/
 *.log
+*.trx
 *.cache
+.cr/
+
+## Node & Web dependencies (if applicable)
 node_modules/
-_ReSharper*/
+npm-debug.log*
+
+## OS specific metadata
+.DS_Store
+Thumbs.db
